@@ -17,6 +17,10 @@ _start:
 	adr x1, _rela_start
 	adr x2, _rela_end
 	bl _relocate_binary
+	
+	mrs x7, mpidr_el1
+	and x7, x7, 0xFF
+	msr tpidr_el1, x7
 
 	#Call into main
 	bl main
