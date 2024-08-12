@@ -8,5 +8,10 @@ _start:
 	add x7, x7, x8 //Add it to the sp
 	mov sp, x7
 	
+	#Enable FPEN bits
+	mrs x7, cpacr_el1
+	orr x7, x7, #(3 << 20)	
+	msr cpacr_el1, x7
+
 	#Call into main
 	bl main

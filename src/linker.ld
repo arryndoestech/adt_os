@@ -11,10 +11,10 @@ SECTIONS {
 	.rodata : {
 		*(.rodata*)
 	}
-	.stack : {
+	.stack (NOLOAD) : {
 		KEEP(*(.stack*))
 	}
-	.bss : {
+	.bss (NOLOAD) : {
 		*(.bss*)
 	}
 }
