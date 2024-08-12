@@ -25,6 +25,15 @@ impl Serial {
             self.uart_addr.write_volatile(c as u8);
         }
     }
+
+    pub fn serial_getchar(&self) -> Option<char> {
+        unsafe {
+            if self.uart_addr.add(0x18).read_volatile() & 1 << 4 == 0 {
+                return Some(self.uart_addr.read_volatile() as char);
+            }
+        }
+        None
+    }
 }
 
 impl Write for Serial {
