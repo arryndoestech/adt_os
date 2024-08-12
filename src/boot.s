@@ -15,6 +15,10 @@ _start:
 	add x7, x7, x8 //Add it to the sp
 	mov sp, x7
 	
+	#Set up exception vector
+	adr x7, vector_table_el1
+	msr vbar_el1, x7
+
 	#Enable FPEN bits
 	mrs x7, cpacr_el1
 	orr x7, x7, #(3 << 20)	

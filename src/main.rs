@@ -15,6 +15,7 @@ mod serial;
 mod panic;
 mod psci;
 mod mutex;
+mod exception;
 
 #[no_mangle]
 #[link_section = ".stack"]
@@ -24,6 +25,7 @@ const NUM_PROCS: usize = 4;
 const SERIAL_ADDR: *mut u8 = 0x0900_0000 as *mut u8;
 
 global_asm!(include_str!("boot.s"), sym STACK, const STACK_SIZE);
+global_asm!(include_str!("exception.s"));
 
 #[allow(improper_ctypes)]
 extern "C" {
@@ -48,6 +50,7 @@ fn main() {
             for core_id in 1..4 {
                cpu_init(core_id, &_start);
             }
+            asm!("svc #0");
         }
     }
         kprintln!("Hello from core: {}", cpu_id());
