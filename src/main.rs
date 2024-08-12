@@ -5,6 +5,7 @@
 use core::arch::{global_asm, asm};
 use crate::serial::*;
 use crate::psci::*;
+use crate::mutex::Mutex;
 
 #[macro_use]
 mod print;
@@ -13,11 +14,13 @@ mod platform;
 mod serial;
 mod panic;
 mod psci;
+mod mutex;
 
 #[no_mangle]
 #[link_section = ".stack"]
-static mut STACK: [u8; STACK_SIZE] = [0; STACK_SIZE];
-const STACK_SIZE: usize = 1024;
+static mut STACK: [u8; STACK_SIZE*NUM_PROCS] = [0; STACK_SIZE*NUM_PROCS];
+const STACK_SIZE: usize = 4096;
+const NUM_PROCS: usize = 4;
 const SERIAL_ADDR: *mut u8 = 0x0900_0000 as *mut u8;
 
 global_asm!(include_str!("boot.s"), sym STACK, const STACK_SIZE);
@@ -33,6 +36,11 @@ fn cpu_id() -> u64 {
     }
 }
 
+static PRINT_LOCK: Mutex<u8> = Mutex::new(0);
+static SERIAL_CONSOLE: Mutex<Serial> = Mutex::new(
+    Serial::new(SERIAL_ADDR)
+);
+
 #[no_mangle]
 fn main() {
     if cpu_id() == 0 {
@@ -41,8 +49,7 @@ fn main() {
                cpu_init(core_id, &_start);
             }
         }
-    } else {
-        kprintln!("Hello from core: {}", cpu_id());
     }
+        kprintln!("Hello from core: {}", cpu_id());
     loop{}
 }

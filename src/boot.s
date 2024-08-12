@@ -2,9 +2,16 @@
 .global _start
 .type _start, @function
 _start:
+	#Get processor ID
+	mrs x9, mpidr_el1
+	and x9, x9, 0xFF
+	msr tpidr_el1, x9
+
 	#Initiliaze the stack
 	adr x7, {} //Move address of STACK variable
 	mov x8, {} //Move STACK_SIZE into x8
+	add x9, x9, 1
+	mul x8, x8, x9
 	add x7, x7, x8 //Add it to the sp
 	mov sp, x7
 	
@@ -17,10 +24,6 @@ _start:
 	adr x1, _rela_start
 	adr x2, _rela_end
 	bl _relocate_binary
-	
-	mrs x7, mpidr_el1
-	and x7, x7, 0xFF
-	msr tpidr_el1, x7
 
 	#Call into main
 	bl main

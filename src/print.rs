@@ -3,7 +3,7 @@ macro_rules! kprint {
     ($($arg:tt)*) => {
         {
             use core::fmt::Write;
-            let mut console = crate::serial::Serial::new(0x0900_0000 as *mut u8);
+            let mut console = crate::SERIAL_CONSOLE.acquire();
             let _ = console.write_fmt(format_args!($($arg)*));
         }
     }

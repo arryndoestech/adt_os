@@ -5,8 +5,10 @@ pub struct Serial {
     uart_addr: *mut u8
 }
 
+unsafe impl Send for Serial {}
+
 impl Serial {
-    pub fn new(uart_addr: *mut u8) -> Self {
+    pub const fn new(uart_addr: *mut u8) -> Self {
         Serial {
             uart_addr: uart_addr
         }
