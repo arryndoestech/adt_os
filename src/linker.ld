@@ -11,6 +11,11 @@ SECTIONS {
 	.rodata : {
 		*(.rodata*)
 	}
+	.rela.dyn : {
+		_rela_start = .;
+		*(.rela.*)
+		_rela_end = .;
+	}
 	.stack (NOLOAD) : {
 		KEEP(*(.stack*))
 	}

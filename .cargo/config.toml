@@ -2,4 +2,4 @@
 target = "aarch64-unknown-none"
 
 [target.aarch64-unknown-none]
-rustflags = ["-Clink-arg=-Tsrc/linker.ld"]
+rustflags = ["-Clink-arg=-Tsrc/linker.ld", "-Crelocation-model=pic", "-Clink-arg=-pie", "-Clink-arg=-znotext"]
