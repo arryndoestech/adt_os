@@ -12,7 +12,7 @@ That can be a good thing for production level software but it's usually a bad th
 I'm writing everything myself in order to actually understand what I am doing.
 
 # Socials
-[Discord Community](https://discord.gg/kmqkrDHEMn)
-[Youtube Channel](https://www.youtube.com/@arryndoestech)
-[Twitter/X](https://x.com/arryndoestech)
+[Discord Community](https://discord.gg/kmqkrDHEMn)  
+[Youtube Channel](https://www.youtube.com/@arryndoestech)  
+[Twitter/X](https://x.com/arryndoestech)  
 [Mastodon](https://hachyderm.io/@arryndoestech)
