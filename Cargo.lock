@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "my_tut_os"
+name = "adt_os"
 version = "0.1.0"
