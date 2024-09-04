@@ -23,7 +23,7 @@ mod memory_map;
 #[no_mangle]
 #[link_section = ".stack"]
 static mut STACK: [u8; STACK_SIZE*NUM_PROCS] = [0; STACK_SIZE*NUM_PROCS];
-const STACK_SIZE: usize = 4096;
+const STACK_SIZE: usize = 1024*32;
 const NUM_PROCS: usize = 4;
 
 global_asm!(include_str!("boot.s"), sym STACK, const STACK_SIZE);
@@ -31,7 +31,7 @@ global_asm!(include_str!("exception.s"));
 
 #[allow(improper_ctypes)]
 extern "C" {
-    static _start: fn();
+    static _common_start: fn();
 }
 
 fn cpu_id() -> u64 {
@@ -50,7 +50,7 @@ fn main() {
     if cpu_id() == 0 {
         unsafe {
             for core_id in 1..4 {
-               cpu_init(core_id, &_start);
+               cpu_init(core_id, &_common_start);
             }
             asm!("svc #0");
         }

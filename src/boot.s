@@ -2,12 +2,19 @@
 .global _start
 .type _start, @function
 _start:
+	bl _clear_bss
+_common_start:
 	#Get processor ID
 	mrs x9, mpidr_el1
 	and x9, x9, 0xFF
 	msr tpidr_el1, x9
 
-	#Initiliaze the stack
+	#Disable stack alignment requirements
+	mrs x7, sctlr_el1
+	bic x7, x7, #(1 << 3)
+	msr sctlr_el1, x7
+
+	#Initialize the stack
 	adr x7, {} //Move address of STACK variable
 	mov x8, {} //Move STACK_SIZE into x8
 	add x9, x9, 1
@@ -46,4 +53,16 @@ _relocate_binary:
 	cmp x1, x2
 	bne _relocate_binary
 1:
+	ret
+
+_clear_bss:
+	adr x7, _bss_start
+	adr x8, _bss_end
+	cmp x7, x8
+	bhs 2f
+1:
+	stp xzr, xzr, [x7], 16
+	cmp x7, x8
+	bls 1b
+2:
 	ret
