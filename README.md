@@ -1,5 +1,5 @@
 # What is adt_os?
-It's an operating system that I am making in a youtube series that can be found [here](https://www.youtube.com/watch?v=E1pzQw5N_pU&list=PLhBirSJjNEmfBCBLjjs77oUFc-MeGwjhP)  
+It's an operating system that I am making in a youtube series that can be found [here](https://www.youtube.com/playlist?list=PLhBirSJjNEmfBCBLjjs77oUFc-MeGwjhP)
 It's intended to show people how to make their own bare metal applications for the aarch64 architecture.  
 
 # Why are you making an operating system?
